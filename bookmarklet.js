@@ -80,16 +80,21 @@ var ImageBookmarklet = {
   }
 }
 
-if (typeof jQuery == 'undefined') {
-  var jQ = document.createElement('script');
-  jQ.type = 'text/javascript';
-  jQ.onload=function(){
+if(window.jQuery) {
+  ImageBookmarklet.init();
+} else {
+  var protocol = (("https:" == document.location.protocol) ? "https:" : "http:");
+  var src = protocol+"//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js";
+
+  var tag = document.createElement('script');
+      tag.setAttribute('type','text/javascript');
+      tag.setAttribute('charset','UTF-8');
+      tag.setAttribute('src', src);
+
+  tag.onload=function(){
     // avoid breaking other projects using $
     jQuery.noConflict();
     ImageBookmarklet.init();
   };
-  jQ.src = 'http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js';
-  document.body.appendChild(jQ);
-} else {
-  ImageBookmarklet.init();
+  document.body.appendChild(tag);
 }
