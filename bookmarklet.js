@@ -3,23 +3,8 @@
 
 /*Todo: Add functions, show total number of images, filter between background and foreground, allow user to set max and min size. resize thumbnails. lightbox image. download all. */
 
-if (typeof jQuery == 'undefined') {
-  var jQ = document.createElement('script');
-  jQ.type = 'text/javascript';
-  jQ.onload=function(){
-    // avoid breaking other project projects using $
-    jQuery.noConflict();
-    runthis();
-  };
-  jQ.src = 'http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js';
-  document.body.appendChild(jQ);
-} else {
-  runthis();
-}
-
-function runthis() {
-
-  jQuery(function($){
+var ImageBookmarklet = {
+  init: function($, undefined){
 
     $('html, body').animate({scrollTop:0}, 'fast');
 
@@ -95,5 +80,20 @@ function runthis() {
         numberOfImages ++;
       }
     }
-  });
+  }
 }
+
+if (typeof jQuery == 'undefined') {
+  var jQ = document.createElement('script');
+  jQ.type = 'text/javascript';
+  jQ.onload=function(){
+    // avoid breaking other projects using $
+    jQuery.noConflict();
+    ImageBookmarklet.init(jQuery);
+  };
+  jQ.src = 'http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js';
+  document.body.appendChild(jQ);
+} else {
+  ImageBookmarklet.init(jQuery);
+}
+
