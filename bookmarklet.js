@@ -4,7 +4,8 @@
 /*Todo: Add functions, show total number of images, filter between background and foreground, allow user to set max and min size. resize thumbnails. lightbox image. download all. */
 
 var ImageBookmarklet = {
-  init: function($, undefined){
+  init: function(undefined){
+    var $ = jQuery;
 
     $('html, body').animate({scrollTop:0}, 'fast');
 
@@ -85,11 +86,10 @@ if (typeof jQuery == 'undefined') {
   jQ.onload=function(){
     // avoid breaking other projects using $
     jQuery.noConflict();
-    ImageBookmarklet.init(jQuery);
+    ImageBookmarklet.init();
   };
   jQ.src = 'http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js';
   document.body.appendChild(jQ);
 } else {
-  ImageBookmarklet.init(jQuery);
+  ImageBookmarklet.init();
 }
-
