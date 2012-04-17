@@ -77,24 +77,43 @@ var ImageBookmarklet = {
         numberOfImages ++;
       }
     }
+  },
+
+  _loadScript: function(src, callback){
+    var script = document.createElement('script');
+        script.setAttribute('type','text/javascript');
+        script.setAttribute('src', src);
+
+    var done = false;
+    script.onload = script.onreadystatechange = function(){
+      if( !done && ( !this.readyState || this.readyState == "loaded"
+                                      || this.readyState == "complete") ){
+        done = true;
+
+        // Continue your code
+        callback();
+
+        // Handle memory leak in IE
+        script.onload = script.onreadystatechange = null;
+      }
+    };
+    document.body.appendChild(script);
+  },
+
+  initWithJquery: function(){
+    var protocol = (("https:" == document.location.protocol) ? "https:" : "http:");
+    var src = protocol+"//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js";
+
+    ImageBookmarklet._loadScript(src, function(){
+      // avoid breaking other projects using $
+      jQuery.noConflict();
+      ImageBookmarklet.init();
+    });
   }
 }
 
 if(window.jQuery) {
   ImageBookmarklet.init();
 } else {
-  var protocol = (("https:" == document.location.protocol) ? "https:" : "http:");
-  var src = protocol+"//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js";
-
-  var tag = document.createElement('script');
-      tag.setAttribute('type','text/javascript');
-      tag.setAttribute('charset','UTF-8');
-      tag.setAttribute('src', src);
-
-  tag.onload=function(){
-    // avoid breaking other projects using $
-    jQuery.noConflict();
-    ImageBookmarklet.init();
-  };
-  document.body.appendChild(tag);
+  ImageBookmarklet.initWithJquery();
 }
