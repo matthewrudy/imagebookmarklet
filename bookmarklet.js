@@ -68,29 +68,30 @@ function runthis() {
         imageURL = imageToAdd.css('background-image').slice(4,-1);
       }
 
-      var beginLiTag = "<li><a href='";
-      var endATag = "'>";
-      var beginImageTag = "<img src='";
-      var middleImageTag = "' style='margin-top:";
-      var endImageTag = "px'>";
-      var endLiTag = "</a></li>";
       var imageWidth = imageToAdd.width();
       var imageHeight = imageToAdd.height();
-
       var containData = imageURL.indexOf('data:');
-
 
       /*Check whether image big enough*/
       if(imageWidth > 150 && imageHeight > 200 && containData === -1) {
+
+        var calculatedMargin;
+
         /*Calculate margin to vertically center*/
         if (imageWidth > imageHeight) {
-          var calculatedMargin = (200 - (200 * (imageHeight / imageWidth))) * 0.5;
+          calculatedMargin = (200 - (200 * (imageHeight / imageWidth))) * 0.5;
         } else {
           calculatedMargin = 0;
         }
 
-        var finalLink =  beginLiTag + imageURL + endATag + beginImageTag + imageURL + middleImageTag + calculatedMargin + endImageTag + "<span>" + imageWidth + " x " + imageHeight + "</span>" + endLiTag;
-        $('#list-of-images').append(finalLink);
+        var item = $("<li></li>").append(
+          $("<a></a>").attr("href", imageURL).append(
+            $("<img />").attr("src", imageURL).css("margin-top", calculatedMargin+"px"),
+            $("<span></span>").text(imageWidth+" x "+imageHeight)
+          )
+        );
+
+        $('#list-of-images').append(item);
         numberOfImages ++;
       }
     }
