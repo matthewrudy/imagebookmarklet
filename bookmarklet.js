@@ -27,29 +27,25 @@ var ImageBookmarklet = {
 
       /*Find images and add to list*/
       $('img').each(function() {
-        var _sudoThing = $(this);
-        addImage(_sudoThing);
+        addImage($(this));
       });
 
       /*Find background images and add to list*/
       $('*:visible').each(function() {
-        var _sudoBackground = $(this);
-        var backgroundImage = _sudoBackground.css('background-image');
+        var $this = $(this);
 
-        if (backgroundImage !== "none") {
-          addImage(_sudoBackground);
+        if ($this.css('background-image') !== "none") {
+          addImage($this);
         }
       });
 
-      $('#count').text(numberOfImages);
+      $('#count').text(numberOfImages+" images found.");
     }
 
     function addImage( imageToAdd ) {
       var imageURL = imageToAdd.attr('src');
-      console.log(imageURL);
 
       if (imageURL === undefined) {
-        console.log(imageToAdd.css('background-image').slice(4,-1));
         imageURL = imageToAdd.css('background-image').slice(4,-1);
       }
 
