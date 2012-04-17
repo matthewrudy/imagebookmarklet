@@ -79,32 +79,36 @@ var ImageBookmarklet = {
     }
   },
 
-  _loadScript: function(src, callback){
-    var script = document.createElement('script');
-        script.setAttribute('type','text/javascript');
-        script.setAttribute('src', src);
+  loadJquery: function(callback){
+    var loadScript = function(src, callback){
+      var script = document.createElement('script');
+          script.setAttribute('type','text/javascript');
+          script.setAttribute('src', src);
 
-    var done = false;
-    script.onload = script.onreadystatechange = function(){
-      if( !done && ( !this.readyState || this.readyState == "loaded"
-                                      || this.readyState == "complete") ){
-        done = true;
+      var done = false;
+      script.onload = script.onreadystatechange = function(){
+        if( !done && ( !this.readyState || this.readyState == "loaded"
+                                        || this.readyState == "complete") ){
+          done = true;
 
-        // Continue your code
-        callback();
+          // Continue your code
+          callback();
 
-        // Handle memory leak in IE
-        script.onload = script.onreadystatechange = null;
-      }
+          // Handle memory leak in IE
+          script.onload = script.onreadystatechange = null;
+        }
+      };
+      document.body.appendChild(script);
     };
-    document.body.appendChild(script);
-  },
 
-  initWithJquery: function(){
     var protocol = (("https:" == document.location.protocol) ? "https:" : "http:");
     var src = protocol+"//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js";
 
-    ImageBookmarklet._loadScript(src, function(){
+    loadScript(src, callback);
+  },
+
+  initWithJquery: function(){
+    this.loadJquery(function(){
       // avoid breaking other projects using $
       jQuery.noConflict();
       ImageBookmarklet.init();
