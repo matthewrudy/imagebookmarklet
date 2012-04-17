@@ -19,36 +19,36 @@ if (typeof jQuery == 'undefined') {
 
 function runthis() {
 
-  jQuery(document).ready(function(){
+  jQuery(function($){
 
-    jQuery('html, body').animate({scrollTop:0}, 'fast');
+    $('html, body').animate({scrollTop:0}, 'fast');
 
       /* Check whether Bookmarklet is already visible */
-    if(jQuery('#image-grabber-container').length == 0) {
+    if($('#image-grabber-container').length == 0) {
 
       var numberOfImages = 0;
 
       /*Add css - Must change this if you want to use your own CSS*/
-      jQuery('<style type="text/css">@import url("http://dl.dropbox.com/u/5045906/imagesbookmarklet/style.css");</style>').appendTo("head");
+      $('<style type="text/css">@import url("http://dl.dropbox.com/u/5045906/imagesbookmarklet/style.css");</style>').appendTo("head");
 
       /*Add toggle*/
-      jQuery('body').append('<div id="background-blocker"></div><div id="image-grabber-container"><div id="button-toggle"><span id="close">Close</span><span id="count"></span></div><ul id="list-of-images"></ul></div>');
+      $('body').append('<div id="background-blocker"></div><div id="image-grabber-container"><div id="button-toggle"><span id="close">Close</span><span id="count"></span></div><ul id="list-of-images"></ul></div>');
 
 
       /*Make toggle work*/
-      jQuery("#button-toggle").click(function() {
-        jQuery("#image-grabber-container, #background-blocker").remove();
+      $("#button-toggle").click(function() {
+        $("#image-grabber-container, #background-blocker").remove();
       });
 
       /*Find images and add to list*/
-      jQuery('img').each(function() {
-        var _sudoThing = jQuery(this);
+      $('img').each(function() {
+        var _sudoThing = $(this);
         addImage(_sudoThing);
       });
 
       /*Find background images and add to list*/
-      jQuery('*:visible').each(function() {
-        var _sudoBackground = jQuery(this);
+      $('*:visible').each(function() {
+        var _sudoBackground = $(this);
         var backgroundImage = _sudoBackground.css('background-image');
 
         if (backgroundImage !== "none") {
@@ -56,7 +56,7 @@ function runthis() {
         }
       });
 
-      jQuery('#count').text(numberOfImages);
+      $('#count').text(numberOfImages);
     }
 
     function addImage( imageToAdd ) {
@@ -90,7 +90,7 @@ function runthis() {
         }
 
         var finalLink =  beginLiTag + imageURL + endATag + beginImageTag + imageURL + middleImageTag + calculatedMargin + endImageTag + "<span>" + imageWidth + " x " + imageHeight + "</span>" + endLiTag;
-        jQuery('#list-of-images').append(finalLink);
+        $('#list-of-images').append(finalLink);
         numberOfImages ++;
       }
     }
